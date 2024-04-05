@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "464336046011",
+    "project_id": "time-trackify-3f350",
+    "storage_bucket": "time-trackify-3f350.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:464336046011:android:e6e6397db58f18486e669e",
+        "android_client_info": {
+          "package_name": "com.example.time_trackify"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCjuhwyHYdPIzaFN-jJ06x45IF-cjcKL5M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
