@@ -4,9 +4,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:time_trackify/blocs/base_cubit.dart';
 import 'package:time_trackify/exceptions/auth_exceptions.dart';
 import 'package:time_trackify/models/current_user.dart';
-import 'package:time_trackify/repositories/firebase_auth_service.dart';
+import 'package:time_trackify/services/firebase_auth_service.dart';
 import 'package:flutter/widgets.dart';
 import 'package:time_trackify/routes/app_router.dart';
+import 'package:time_trackify/services/firestore_service.dart';
 
 part 'auth_state.dart';
 part 'auth_bloc.g.dart';
@@ -14,6 +15,7 @@ part 'auth_bloc.g.dart';
 /// AuthBloc is responsible for managing authorization in the application
 class AuthBloc extends BaseCubit<AuthState> {
   late final FirebaseAuthService _firebaseAuthService = FirebaseAuthService();
+  late final FirestoreService firestoreService = FirestoreService();
 
   AuthBloc(AppRouter appRouter, BuildContext context)
       : super(
@@ -93,6 +95,9 @@ class AuthBloc extends BaseCubit<AuthState> {
           isLoading: false,
           isLoggedIn: true,
         ));
+
+        await firestoreService.updateUserRole(user.userId);
+
         _navigateToHomePage();
       } else {
         emit(state.copyWith(
@@ -131,16 +136,16 @@ class AuthBloc extends BaseCubit<AuthState> {
 
   void navigateToLoginPage() {
     _clearState();
-    appRouter.replace(LoginRoute());
+    appRouter.replaceAll([LoginRoute()]);
   }
 
   void navigateToRegisterPage() {
     _clearState();
-    appRouter.replace(RegistrationRoute());
+    appRouter.navigate(RegistrationRoute());
   }
 
   void _navigateToHomePage() {
-    appRouter.replace(HomeRoute());
+    appRouter.replaceAll([HomeRoute()]);
   }
 
   void _clearState() {

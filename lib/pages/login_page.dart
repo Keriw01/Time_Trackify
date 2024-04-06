@@ -95,9 +95,6 @@ class LoginPage extends StatelessWidget {
                               if (value == null || value.trim().isEmpty) {
                                 return "Hasło jest wymagane";
                               }
-                              if (value.trim().length < 8) {
-                                return "Hasło musi mieć co najmniej 8 znaków";
-                              }
                               return null;
                             },
                             cursorColor: seedColor,
@@ -131,6 +128,14 @@ class LoginPage extends StatelessWidget {
                             obscureText: true,
                           ),
                         ),
+                        if (state.errorMessage != '')
+                          Text(
+                            state.errorMessage,
+                            style: const TextStyle(
+                              color: Colors.red,
+                              fontSize: 12.0,
+                            ),
+                          ),
                         Padding(
                           padding: const EdgeInsets.only(top: 10),
                           child: ElevatedButton(
