@@ -36,7 +36,7 @@ class RegistrationPage extends StatelessWidget {
                   SizedBox(
                     width: MediaQuery.of(context).size.width,
                     height: 240,
-                    child: SvgPicture.asset('assets/images/login_logo.svg'),
+                    child: SvgPicture.asset('assets/images/register_logo.svg'),
                   ),
                   const SizedBox(height: 20),
                   Form(

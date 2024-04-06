@@ -1,5 +1,6 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:time_trackify/blocs/base_cubit.dart';
 import 'package:time_trackify/exceptions/auth_exceptions.dart';
 import 'package:time_trackify/models/current_user.dart';
@@ -18,13 +19,33 @@ class AuthBloc extends BaseCubit<AuthState> {
       : super(
           appRouter,
           AuthState(),
-        );
+        ) {
+    checkLoginStatus();
+  }
+
+  void checkLoginStatus() {
+    final currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser != null) {
+      emit(state.copyWith(
+        isLoggedIn: true,
+        currentUser: CurrentUser(
+            userId: currentUser.uid,
+            email: currentUser.email,
+            name: currentUser.displayName),
+      ));
+      _navigateToHomePage();
+    } else {
+      emit(state.copyWith(isLoggedIn: false));
+      navigateToLoginPage();
+    }
+  }
 
   Future<void> login(String email, String password) async {
     emit(
       state.copyWith(
         errorMessage: '',
         isLoading: true,
+        isLoggedIn: true,
       ),
     );
 
@@ -34,7 +55,9 @@ class AuthBloc extends BaseCubit<AuthState> {
       if (user != null) {
         emit(state.copyWith(
           isLoading: false,
+          isLoggedIn: true,
         ));
+        _navigateToHomePage();
       } else {
         emit(state.copyWith(
           errorMessage: 'Nie poprawne dane',
@@ -68,8 +91,9 @@ class AuthBloc extends BaseCubit<AuthState> {
       if (user != null) {
         emit(state.copyWith(
           isLoading: false,
+          isLoggedIn: true,
         ));
-        _navigateToAuthFlowScreen();
+        _navigateToHomePage();
       } else {
         emit(state.copyWith(
           errorMessage: 'Nie poprawne dane',
@@ -101,10 +125,7 @@ class AuthBloc extends BaseCubit<AuthState> {
     } catch (e) {
       emit(state.copyWith(isLoading: false));
     } finally {
-      emit(state.copyWith(
-        errorMessage: '',
-        isLoading: false,
-      ));
+      navigateToLoginPage();
     }
   }
 
@@ -118,8 +139,8 @@ class AuthBloc extends BaseCubit<AuthState> {
     appRouter.replace(RegistrationRoute());
   }
 
-  void _navigateToAuthFlowScreen() {
-    appRouter.replace(const AuthenticationFlowRoute());
+  void _navigateToHomePage() {
+    appRouter.replace(HomeRoute());
   }
 
   void _clearState() {
@@ -127,6 +148,8 @@ class AuthBloc extends BaseCubit<AuthState> {
       state.copyWith(
         errorMessage: '',
         isLoading: false,
+        isLoggedIn: false,
+        currentUser: null,
       ),
     );
   }

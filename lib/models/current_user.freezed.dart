@@ -21,8 +21,8 @@ CurrentUser _$CurrentUserFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$CurrentUser {
   String get userId => throw _privateConstructorUsedError;
-  String get email => throw _privateConstructorUsedError;
-  String get name => throw _privateConstructorUsedError;
+  String? get email => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -36,7 +36,7 @@ abstract class $CurrentUserCopyWith<$Res> {
           CurrentUser value, $Res Function(CurrentUser) then) =
       _$CurrentUserCopyWithImpl<$Res, CurrentUser>;
   @useResult
-  $Res call({String userId, String email, String name});
+  $Res call({String userId, String? email, String? name});
 }
 
 /// @nodoc
@@ -53,22 +53,22 @@ class _$CurrentUserCopyWithImpl<$Res, $Val extends CurrentUser>
   @override
   $Res call({
     Object? userId = null,
-    Object? email = null,
-    Object? name = null,
+    Object? email = freezed,
+    Object? name = freezed,
   }) {
     return _then(_value.copyWith(
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String,
-      email: null == email
+      email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
+              as String?,
+      name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 }
@@ -81,7 +81,7 @@ abstract class _$$CurrentUserImplCopyWith<$Res>
       __$$CurrentUserImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String userId, String email, String name});
+  $Res call({String userId, String? email, String? name});
 }
 
 /// @nodoc
@@ -96,22 +96,22 @@ class __$$CurrentUserImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? userId = null,
-    Object? email = null,
-    Object? name = null,
+    Object? email = freezed,
+    Object? name = freezed,
   }) {
     return _then(_$CurrentUserImpl(
       userId: null == userId
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String,
-      email: null == email
+      email: freezed == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
+              as String?,
+      name: freezed == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -128,9 +128,9 @@ class _$CurrentUserImpl implements _CurrentUser {
   @override
   final String userId;
   @override
-  final String email;
+  final String? email;
   @override
-  final String name;
+  final String? name;
 
   @override
   String toString() {
@@ -168,8 +168,8 @@ class _$CurrentUserImpl implements _CurrentUser {
 abstract class _CurrentUser implements CurrentUser {
   const factory _CurrentUser(
       {required final String userId,
-      required final String email,
-      required final String name}) = _$CurrentUserImpl;
+      required final String? email,
+      required final String? name}) = _$CurrentUserImpl;
 
   factory _CurrentUser.fromJson(Map<String, dynamic> json) =
       _$CurrentUserImpl.fromJson;
@@ -177,9 +177,9 @@ abstract class _CurrentUser implements CurrentUser {
   @override
   String get userId;
   @override
-  String get email;
+  String? get email;
   @override
-  String get name;
+  String? get name;
   @override
   @JsonKey(ignore: true)
   _$$CurrentUserImplCopyWith<_$CurrentUserImpl> get copyWith =>

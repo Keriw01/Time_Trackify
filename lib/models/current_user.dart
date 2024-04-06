@@ -7,8 +7,8 @@ part 'current_user.g.dart';
 class CurrentUser with _$CurrentUser {
   const factory CurrentUser({
     required String userId,
-    required String email,
-    required String name,
+    required String? email,
+    required String? name,
   }) = _CurrentUser;
 
   factory CurrentUser.fromJson(Map<String, dynamic> json) =>

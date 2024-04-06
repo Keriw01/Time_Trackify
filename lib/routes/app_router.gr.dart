@@ -15,12 +15,6 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
-    AuthenticationFlowRoute.name: (routeData) {
-      return AutoRoutePage<dynamic>(
-        routeData: routeData,
-        child: const AuthenticationFlowScreen(),
-      );
-    },
     HomeRoute.name: (routeData) {
       final args =
           routeData.argsAs<HomeRouteArgs>(orElse: () => const HomeRouteArgs());
@@ -46,20 +40,6 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
   };
-}
-
-/// generated route for
-/// [AuthenticationFlowScreen]
-class AuthenticationFlowRoute extends PageRouteInfo<void> {
-  const AuthenticationFlowRoute({List<PageRouteInfo>? children})
-      : super(
-          AuthenticationFlowRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'AuthenticationFlowRoute';
-
-  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
