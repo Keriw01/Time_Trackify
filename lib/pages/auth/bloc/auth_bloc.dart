@@ -1,6 +1,6 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:equatable/equatable.dart';
-import 'package:time_trackify/blocs/base_cubit.dart';
+import 'package:time_trackify/base_cubit.dart';
 import 'package:time_trackify/exceptions/auth_exceptions.dart';
 import 'package:time_trackify/models/current_user.dart';
 import 'package:time_trackify/services/firebase_auth_service.dart';

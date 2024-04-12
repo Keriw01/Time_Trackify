@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:time_trackify/blocs/auth/auth_bloc.dart';
+import 'package:time_trackify/pages/auth/bloc/auth_bloc.dart';
 
 @RoutePage()
 class QrPage extends StatelessWidget {
@@ -16,3 +16,8 @@ class QrPage extends StatelessWidget {
     );
   }
 }
+
+
+// child: ElevatedButton(
+//           onPressed: () => context.read<AuthBloc>().logOut(),
+//           child: Text('Log Out')),

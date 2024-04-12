@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:time_trackify/pages/login_page.dart';
+import 'package:time_trackify/pages/auth/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:time_trackify/routes/app_router.dart';
 
@@ -34,12 +34,12 @@ class AuthenticationFlowScreen extends StatelessWidget {
                     },
                     items: const [
                       BottomNavigationBarItem(
-                        icon: Icon(Icons.bar_chart_sharp),
-                        label: 'Statistics',
-                      ),
-                      BottomNavigationBarItem(
                         icon: Icon(Icons.qr_code),
                         label: 'Scan QR',
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.bar_chart_sharp),
+                        label: 'Statistics',
                       ),
                     ],
                   ),

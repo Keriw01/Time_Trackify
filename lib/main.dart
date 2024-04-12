@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:time_trackify/blocs/auth/auth_bloc.dart';
+import 'package:time_trackify/pages/auth/bloc/auth_bloc.dart';
 import 'package:time_trackify/routes/app_router.dart';
 import 'package:time_trackify/styles/theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
