@@ -23,235 +23,246 @@ class RegistrationPage extends StatelessWidget {
         return Scaffold(
           backgroundColor: Colors.white,
           body: SafeArea(
-            child: SingleChildScrollView(
-              reverse: true,
-              child: Column(
-                children: <Widget>[
-                  const SizedBox(height: 20),
-                  Text(
-                    "Rejestracja",
-                    style: Theme.of(context).textTheme.displayLarge,
-                  ),
-                  const SizedBox(height: 20),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    height: 240,
-                    child: SvgPicture.asset('assets/images/register_logo.svg'),
-                  ),
-                  const SizedBox(height: 20),
-                  Form(
-                    key: formKey,
+            child: state.isLoading
+                ? const LoadingIndicator()
+                : SingleChildScrollView(
+                    reverse: true,
                     child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(55, 0, 55, 10),
-                          child: TextFormField(
-                            controller: emailController,
-                            keyboardType: TextInputType.emailAddress,
-                            validator: (value) {
-                              if (value != null) {
-                                if (value.contains('@')) {
-                                  return null;
-                                }
-                                return "Wprowadź poprawny adres e-mail";
-                              }
-                              return null;
-                            },
-                            cursorColor: seedColor,
-                            style: const TextStyle(
-                              color: blackColor,
-                              fontFamily: 'OpenSans',
-                              fontSize: 14,
-                            ),
-                            decoration: const InputDecoration(
-                              filled: true,
-                              fillColor: whiteColor,
-                              errorBorder: underlineInputBorder,
-                              focusedErrorBorder: underlineInputBorder,
-                              focusedBorder: underlineInputBorder,
-                              enabledBorder: underlineInputBorder,
-                              prefixIcon: Icon(
-                                Icons.email,
-                                color: seedColor,
-                                size: 22,
-                              ),
-                              labelText: "Wpisz swój e-mail",
-                              labelStyle: TextStyle(
-                                color: blackColor,
-                                fontSize: 14,
-                              ),
-                              floatingLabelStyle: TextStyle(
-                                color: blackColor,
-                                fontSize: 12,
-                              ),
-                            ),
-                          ),
+                      children: <Widget>[
+                        const SizedBox(height: 20),
+                        Text(
+                          "Rejestracja",
+                          style: Theme.of(context).textTheme.displayLarge,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(55, 10, 55, 10),
-                          child: TextFormField(
-                            controller: passwordController,
-                            keyboardType: TextInputType.emailAddress,
-                            validator: (value) {
-                              if (value == null || value.trim().isEmpty) {
-                                return "Hasło jest wymagane";
-                              }
-                              if (value.trim().length < 8) {
-                                return "Hasło musi mieć co najmniej 8 znaków";
-                              }
-                              return null;
-                            },
-                            cursorColor: seedColor,
-                            style: const TextStyle(
-                              color: blackColor,
-                              fontFamily: 'OpenSans',
-                              fontSize: 14,
-                            ),
-                            decoration: const InputDecoration(
-                              filled: true,
-                              fillColor: whiteColor,
-                              errorBorder: underlineInputBorder,
-                              focusedErrorBorder: underlineInputBorder,
-                              focusedBorder: underlineInputBorder,
-                              enabledBorder: underlineInputBorder,
-                              prefixIcon: Icon(
-                                Icons.lock,
-                                color: seedColor,
-                                size: 22,
-                              ),
-                              labelText: "Wpisz swoje hasło",
-                              labelStyle: TextStyle(
-                                color: blackColor,
-                                fontSize: 14,
-                              ),
-                              floatingLabelStyle: TextStyle(
-                                color: blackColor,
-                                fontSize: 12,
-                              ),
-                            ),
-                            obscureText: true,
-                          ),
+                        const SizedBox(height: 20),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          height: 240,
+                          child: SvgPicture.asset(
+                              'assets/images/register_logo.svg'),
                         ),
-                        if (state.errorMessage != '')
-                          Text(
-                            state.errorMessage,
-                            style: const TextStyle(
-                              color: Colors.red,
-                              fontSize: 12.0,
-                            ),
-                          ),
-                        if (state.isLoading)
-                          const LoadingIndicator(width: 75, height: 75)
-                        else
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: ElevatedButton(
-                              onPressed: () async {
-                                if (formKey.currentState!.validate()) {
-                                  context.read<AuthBloc>().register(
-                                        emailController.text.trim(),
-                                        passwordController.text.trim(),
-                                      );
-                                } else {
-                                  emailController.clear();
-                                  passwordController.clear();
-                                }
-                              },
-                              style: ButtonStyle(
-                                padding: MaterialStateProperty.all<EdgeInsets>(
-                                  const EdgeInsets.fromLTRB(75, 10, 75, 10),
-                                ),
-                                backgroundColor:
-                                    MaterialStateProperty.all(seedColor),
-                                shape: MaterialStateProperty.all(
-                                  const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(20.0),
+                        const SizedBox(height: 20),
+                        Form(
+                          key: formKey,
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(55, 0, 55, 10),
+                                child: TextFormField(
+                                  controller: emailController,
+                                  keyboardType: TextInputType.emailAddress,
+                                  validator: (value) {
+                                    if (value != null) {
+                                      if (value.contains('@')) {
+                                        return null;
+                                      }
+                                      return "Wprowadź poprawny adres e-mail";
+                                    }
+                                    return null;
+                                  },
+                                  cursorColor: seedColor,
+                                  style: const TextStyle(
+                                    color: blackColor,
+                                    fontFamily: 'OpenSans',
+                                    fontSize: 14,
+                                  ),
+                                  decoration: const InputDecoration(
+                                    filled: true,
+                                    fillColor: whiteColor,
+                                    errorBorder: underlineInputBorder,
+                                    focusedErrorBorder: underlineInputBorder,
+                                    focusedBorder: underlineInputBorder,
+                                    enabledBorder: underlineInputBorder,
+                                    prefixIcon: Icon(
+                                      Icons.email,
+                                      color: seedColor,
+                                      size: 22,
+                                    ),
+                                    labelText: "Wpisz swój e-mail",
+                                    labelStyle: TextStyle(
+                                      color: blackColor,
+                                      fontSize: 14,
+                                    ),
+                                    floatingLabelStyle: TextStyle(
+                                      color: blackColor,
+                                      fontSize: 12,
                                     ),
                                   ),
                                 ),
-                                overlayColor: const MaterialStatePropertyAll(
-                                  primaryColor,
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(55, 10, 55, 10),
+                                child: TextFormField(
+                                  controller: passwordController,
+                                  keyboardType: TextInputType.emailAddress,
+                                  validator: (value) {
+                                    if (value == null || value.trim().isEmpty) {
+                                      return "Hasło jest wymagane";
+                                    }
+                                    if (value.trim().length < 8) {
+                                      return "Hasło musi mieć co najmniej 8 znaków";
+                                    }
+                                    return null;
+                                  },
+                                  cursorColor: seedColor,
+                                  style: const TextStyle(
+                                    color: blackColor,
+                                    fontFamily: 'OpenSans',
+                                    fontSize: 14,
+                                  ),
+                                  decoration: const InputDecoration(
+                                    filled: true,
+                                    fillColor: whiteColor,
+                                    errorBorder: underlineInputBorder,
+                                    focusedErrorBorder: underlineInputBorder,
+                                    focusedBorder: underlineInputBorder,
+                                    enabledBorder: underlineInputBorder,
+                                    prefixIcon: Icon(
+                                      Icons.lock,
+                                      color: seedColor,
+                                      size: 22,
+                                    ),
+                                    labelText: "Wpisz swoje hasło",
+                                    labelStyle: TextStyle(
+                                      color: blackColor,
+                                      fontSize: 14,
+                                    ),
+                                    floatingLabelStyle: TextStyle(
+                                      color: blackColor,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                  obscureText: true,
                                 ),
                               ),
-                              child: Text(
-                                "Zarejestruj",
-                                style:
-                                    Theme.of(context).textTheme.displayMedium,
+                              if (state.errorMessage != '')
+                                Text(
+                                  state.errorMessage,
+                                  style: const TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 12.0,
+                                  ),
+                                ),
+                              if (state.isLoading)
+                                const LoadingIndicator(width: 75, height: 75)
+                              else
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 10),
+                                  child: ElevatedButton(
+                                    onPressed: () async {
+                                      if (formKey.currentState!.validate()) {
+                                        context.read<AuthBloc>().register(
+                                              emailController.text.trim(),
+                                              passwordController.text.trim(),
+                                            );
+                                      } else {
+                                        emailController.clear();
+                                        passwordController.clear();
+                                      }
+                                    },
+                                    style: ButtonStyle(
+                                      padding:
+                                          MaterialStateProperty.all<EdgeInsets>(
+                                        const EdgeInsets.fromLTRB(
+                                            75, 10, 75, 10),
+                                      ),
+                                      backgroundColor:
+                                          MaterialStateProperty.all(seedColor),
+                                      shape: MaterialStateProperty.all(
+                                        const RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.all(
+                                            Radius.circular(20.0),
+                                          ),
+                                        ),
+                                      ),
+                                      overlayColor:
+                                          const MaterialStatePropertyAll(
+                                        primaryColor,
+                                      ),
+                                    ),
+                                    child: Text(
+                                      "Zarejestruj",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .displayMedium,
+                                    ),
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10),
+                              child: TextButton(
+                                onPressed: () => context
+                                    .read<AuthBloc>()
+                                    .navigateToLoginPage(),
+                                child: Text(
+                                  "Masz już konto ? Zaloguj się",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineSmall
+                                      ?.copyWith(color: blackColor),
+                                ),
                               ),
                             ),
-                          ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              height: 1,
+                              width: 70,
+                              color: primaryColor,
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5),
+                              child: Text(
+                                "LUB",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineSmall
+                                    ?.copyWith(color: blackColor),
+                              ),
+                            ),
+                            Container(
+                              height: 1,
+                              width: 70,
+                              color: primaryColor,
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            IconButton(
+                              onPressed: () {},
+                              icon: const Icon(
+                                FontAwesomeIcons.google,
+                                color: seedColor,
+                              ),
+                              splashRadius: 0.1,
+                            ),
+                            IconButton(
+                              onPressed: () {},
+                              icon: const Icon(
+                                FontAwesomeIcons.facebook,
+                                color: seedColor,
+                              ),
+                              splashRadius: 0.1,
+                            ),
+                          ],
+                        ),
                       ],
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10),
-                        child: TextButton(
-                          onPressed: () =>
-                              context.read<AuthBloc>().navigateToLoginPage(),
-                          child: Text(
-                            "Masz już konto ? Zaloguj się",
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineSmall
-                                ?.copyWith(color: blackColor),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        height: 1,
-                        width: 70,
-                        color: primaryColor,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: Text(
-                          "LUB",
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineSmall
-                              ?.copyWith(color: blackColor),
-                        ),
-                      ),
-                      Container(
-                        height: 1,
-                        width: 70,
-                        color: primaryColor,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          FontAwesomeIcons.google,
-                          color: seedColor,
-                        ),
-                        splashRadius: 0.1,
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          FontAwesomeIcons.facebook,
-                          color: seedColor,
-                        ),
-                        splashRadius: 0.1,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
           ),
         );
       },

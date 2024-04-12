@@ -1,6 +1,5 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:equatable/equatable.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:time_trackify/blocs/base_cubit.dart';
 import 'package:time_trackify/exceptions/auth_exceptions.dart';
 import 'package:time_trackify/models/current_user.dart';
@@ -21,33 +20,13 @@ class AuthBloc extends BaseCubit<AuthState> {
       : super(
           appRouter,
           AuthState(),
-        ) {
-    checkLoginStatus();
-  }
-
-  void checkLoginStatus() {
-    final currentUser = FirebaseAuth.instance.currentUser;
-    if (currentUser != null) {
-      emit(state.copyWith(
-        isLoggedIn: true,
-        currentUser: CurrentUser(
-            userId: currentUser.uid,
-            email: currentUser.email,
-            name: currentUser.displayName),
-      ));
-      _navigateToHomePage();
-    } else {
-      emit(state.copyWith(isLoggedIn: false));
-      navigateToLoginPage();
-    }
-  }
+        );
 
   Future<void> login(String email, String password) async {
     emit(
       state.copyWith(
         errorMessage: '',
         isLoading: true,
-        isLoggedIn: true,
       ),
     );
 
@@ -55,11 +34,7 @@ class AuthBloc extends BaseCubit<AuthState> {
       final CurrentUser? user = await _firebaseAuthService
           .signInWithEmailAndPassword(email, password);
       if (user != null) {
-        emit(state.copyWith(
-          isLoading: false,
-          isLoggedIn: true,
-        ));
-        _navigateToHomePage();
+        emit(state.copyWith(isLoading: false));
       } else {
         emit(state.copyWith(
           errorMessage: 'Nie poprawne dane',
@@ -91,14 +66,9 @@ class AuthBloc extends BaseCubit<AuthState> {
       final CurrentUser? user = await _firebaseAuthService
           .signUpWithEmailAndPassword(email, password);
       if (user != null) {
-        emit(state.copyWith(
-          isLoading: false,
-          isLoggedIn: true,
-        ));
+        emit(state.copyWith(isLoading: false));
 
         await firestoreService.updateUserRole(user.userId);
-
-        _navigateToHomePage();
       } else {
         emit(state.copyWith(
           errorMessage: 'Nie poprawne dane',
@@ -130,7 +100,7 @@ class AuthBloc extends BaseCubit<AuthState> {
     } catch (e) {
       emit(state.copyWith(isLoading: false));
     } finally {
-      navigateToLoginPage();
+      _clearState();
     }
   }
 
@@ -144,16 +114,11 @@ class AuthBloc extends BaseCubit<AuthState> {
     appRouter.navigate(RegistrationRoute());
   }
 
-  void _navigateToHomePage() {
-    appRouter.replaceAll([HomeRoute()]);
-  }
-
   void _clearState() {
     emit(
       state.copyWith(
         errorMessage: '',
         isLoading: false,
-        isLoggedIn: false,
         currentUser: null,
       ),
     );

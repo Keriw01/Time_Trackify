@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class LoadingIndicator extends StatelessWidget {
   final double width;
   final double height;
-  const LoadingIndicator({super.key, this.width = 100, this.height = 100});
+  const LoadingIndicator({super.key, this.width = 50, this.height = 50});
 
   @override
   Widget build(BuildContext context) {

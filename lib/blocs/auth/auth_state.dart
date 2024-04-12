@@ -4,13 +4,11 @@ part of 'auth_bloc.dart';
 class AuthState with EquatableMixin {
   final String errorMessage;
   final bool isLoading;
-  final bool isLoggedIn;
   final CurrentUser? currentUser;
 
   AuthState({
     this.isLoading = false,
     this.errorMessage = '',
-    this.isLoggedIn = false,
     this.currentUser,
   });
 
@@ -18,7 +16,6 @@ class AuthState with EquatableMixin {
   List<Object?> get props => [
         isLoading,
         errorMessage,
-        isLoggedIn,
         currentUser,
       ];
 }

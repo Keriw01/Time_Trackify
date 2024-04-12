@@ -6,6 +6,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:time_trackify/styles/colors.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:time_trackify/widgets/custom_underline_input_border.dart';
+import 'package:time_trackify/widgets/loading_indicator.dart';
 
 @RoutePage()
 class LoginPage extends StatelessWidget {
@@ -22,228 +23,239 @@ class LoginPage extends StatelessWidget {
         return Scaffold(
           backgroundColor: Colors.white,
           body: SafeArea(
-            child: SingleChildScrollView(
-              reverse: true,
-              child: Column(
-                children: <Widget>[
-                  const SizedBox(height: 20),
-                  Text(
-                    "Logowanie",
-                    style: Theme.of(context).textTheme.displayLarge,
-                  ),
-                  const SizedBox(height: 20),
-                  SizedBox(
-                    width: MediaQuery.of(context).size.width,
-                    height: 240,
-                    child: SvgPicture.asset('assets/images/login_logo.svg'),
-                  ),
-                  const SizedBox(height: 20),
-                  Form(
-                    key: formKey,
+            child: state.isLoading
+                ? const LoadingIndicator()
+                : SingleChildScrollView(
+                    reverse: true,
                     child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(55, 0, 55, 10),
-                          child: TextFormField(
-                            controller: emailController,
-                            keyboardType: TextInputType.emailAddress,
-                            validator: (value) {
-                              if (value != null) {
-                                if (value.contains('@')) {
-                                  return null;
-                                }
-                                return "Wprowadź poprawny adres e-mail";
-                              }
-                              return null;
-                            },
-                            cursorColor: seedColor,
-                            style: const TextStyle(
-                              color: blackColor,
-                              fontFamily: 'OpenSans',
-                              fontSize: 14,
-                            ),
-                            decoration: const InputDecoration(
-                              filled: true,
-                              fillColor: whiteColor,
-                              errorBorder: underlineInputBorder,
-                              focusedErrorBorder: underlineInputBorder,
-                              focusedBorder: underlineInputBorder,
-                              enabledBorder: underlineInputBorder,
-                              prefixIcon: Icon(
-                                Icons.email,
-                                color: seedColor,
-                                size: 22,
-                              ),
-                              labelText: "Wpisz swój e-mail",
-                              labelStyle: TextStyle(
-                                color: blackColor,
-                                fontSize: 14,
-                              ),
-                              floatingLabelStyle: TextStyle(
-                                color: blackColor,
-                                fontSize: 12,
-                              ),
-                            ),
-                          ),
+                      children: <Widget>[
+                        const SizedBox(height: 20),
+                        Text(
+                          "Logowanie",
+                          style: Theme.of(context).textTheme.displayLarge,
                         ),
-                        Padding(
-                          padding: const EdgeInsets.fromLTRB(55, 10, 55, 10),
-                          child: TextFormField(
-                            controller: passwordController,
-                            keyboardType: TextInputType.emailAddress,
-                            validator: (value) {
-                              if (value == null || value.trim().isEmpty) {
-                                return "Hasło jest wymagane";
-                              }
-                              return null;
-                            },
-                            cursorColor: seedColor,
-                            style: const TextStyle(
-                              color: blackColor,
-                              fontFamily: 'OpenSans',
-                              fontSize: 14,
-                            ),
-                            decoration: const InputDecoration(
-                              filled: true,
-                              fillColor: whiteColor,
-                              errorBorder: underlineInputBorder,
-                              focusedErrorBorder: underlineInputBorder,
-                              focusedBorder: underlineInputBorder,
-                              enabledBorder: underlineInputBorder,
-                              prefixIcon: Icon(
-                                Icons.lock,
-                                color: seedColor,
-                                size: 22,
-                              ),
-                              labelText: "Wpisz swoje hasło",
-                              labelStyle: TextStyle(
-                                color: blackColor,
-                                fontSize: 14,
-                              ),
-                              floatingLabelStyle: TextStyle(
-                                color: blackColor,
-                                fontSize: 12,
-                              ),
-                            ),
-                            obscureText: true,
-                          ),
+                        const SizedBox(height: 20),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          height: 240,
+                          child:
+                              SvgPicture.asset('assets/images/login_logo.svg'),
                         ),
-                        if (state.errorMessage != '')
-                          Text(
-                            state.errorMessage,
-                            style: const TextStyle(
-                              color: Colors.red,
-                              fontSize: 12.0,
-                            ),
-                          ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10),
-                          child: ElevatedButton(
-                            onPressed: () async {
-                              if (formKey.currentState!.validate()) {
-                                context.read<AuthBloc>().login(
-                                      emailController.text.trim(),
-                                      passwordController.text.trim(),
-                                    );
-                              } else {
-                                emailController.clear();
-                                passwordController.clear();
-                              }
-                            },
-                            style: ButtonStyle(
-                              padding: MaterialStateProperty.all<EdgeInsets>(
-                                const EdgeInsets.fromLTRB(75, 10, 75, 10),
-                              ),
-                              backgroundColor:
-                                  MaterialStateProperty.all(seedColor),
-                              shape: MaterialStateProperty.all(
-                                const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.all(
-                                    Radius.circular(20.0),
+                        const SizedBox(height: 20),
+                        Form(
+                          key: formKey,
+                          child: Column(
+                            children: [
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(55, 0, 55, 10),
+                                child: TextFormField(
+                                  controller: emailController,
+                                  keyboardType: TextInputType.emailAddress,
+                                  validator: (value) {
+                                    if (value != null) {
+                                      if (value.contains('@')) {
+                                        return null;
+                                      }
+                                      return "Wprowadź poprawny adres e-mail";
+                                    }
+                                    return null;
+                                  },
+                                  cursorColor: seedColor,
+                                  style: const TextStyle(
+                                    color: blackColor,
+                                    fontFamily: 'OpenSans',
+                                    fontSize: 14,
+                                  ),
+                                  decoration: const InputDecoration(
+                                    filled: true,
+                                    fillColor: whiteColor,
+                                    errorBorder: underlineInputBorder,
+                                    focusedErrorBorder: underlineInputBorder,
+                                    focusedBorder: underlineInputBorder,
+                                    enabledBorder: underlineInputBorder,
+                                    prefixIcon: Icon(
+                                      Icons.email,
+                                      color: seedColor,
+                                      size: 22,
+                                    ),
+                                    labelText: "Wpisz swój e-mail",
+                                    labelStyle: TextStyle(
+                                      color: blackColor,
+                                      fontSize: 14,
+                                    ),
+                                    floatingLabelStyle: TextStyle(
+                                      color: blackColor,
+                                      fontSize: 12,
+                                    ),
                                   ),
                                 ),
                               ),
-                              overlayColor: const MaterialStatePropertyAll(
-                                primaryColor,
+                              Padding(
+                                padding:
+                                    const EdgeInsets.fromLTRB(55, 10, 55, 10),
+                                child: TextFormField(
+                                  controller: passwordController,
+                                  keyboardType: TextInputType.emailAddress,
+                                  validator: (value) {
+                                    if (value == null || value.trim().isEmpty) {
+                                      return "Hasło jest wymagane";
+                                    }
+                                    return null;
+                                  },
+                                  cursorColor: seedColor,
+                                  style: const TextStyle(
+                                    color: blackColor,
+                                    fontFamily: 'OpenSans',
+                                    fontSize: 14,
+                                  ),
+                                  decoration: const InputDecoration(
+                                    filled: true,
+                                    fillColor: whiteColor,
+                                    errorBorder: underlineInputBorder,
+                                    focusedErrorBorder: underlineInputBorder,
+                                    focusedBorder: underlineInputBorder,
+                                    enabledBorder: underlineInputBorder,
+                                    prefixIcon: Icon(
+                                      Icons.lock,
+                                      color: seedColor,
+                                      size: 22,
+                                    ),
+                                    labelText: "Wpisz swoje hasło",
+                                    labelStyle: TextStyle(
+                                      color: blackColor,
+                                      fontSize: 14,
+                                    ),
+                                    floatingLabelStyle: TextStyle(
+                                      color: blackColor,
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                  obscureText: true,
+                                ),
+                              ),
+                              if (state.errorMessage != '')
+                                Text(
+                                  state.errorMessage,
+                                  style: const TextStyle(
+                                    color: Colors.red,
+                                    fontSize: 12.0,
+                                  ),
+                                ),
+                              Padding(
+                                padding: const EdgeInsets.only(top: 10),
+                                child: ElevatedButton(
+                                  onPressed: () async {
+                                    if (formKey.currentState!.validate()) {
+                                      context.read<AuthBloc>().login(
+                                            emailController.text.trim(),
+                                            passwordController.text.trim(),
+                                          );
+                                    } else {
+                                      emailController.clear();
+                                      passwordController.clear();
+                                    }
+                                  },
+                                  style: ButtonStyle(
+                                    padding:
+                                        MaterialStateProperty.all<EdgeInsets>(
+                                      const EdgeInsets.fromLTRB(75, 10, 75, 10),
+                                    ),
+                                    backgroundColor:
+                                        MaterialStateProperty.all(seedColor),
+                                    shape: MaterialStateProperty.all(
+                                      const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(20.0),
+                                        ),
+                                      ),
+                                    ),
+                                    overlayColor:
+                                        const MaterialStatePropertyAll(
+                                      primaryColor,
+                                    ),
+                                  ),
+                                  child: Text(
+                                    "Zaloguj",
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .displayMedium,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(top: 10),
+                              child: TextButton(
+                                onPressed: () => context
+                                    .read<AuthBloc>()
+                                    .navigateToRegisterPage(),
+                                child: Text(
+                                  "Nie masz konta ? Zarejestruj się",
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineSmall
+                                      ?.copyWith(color: blackColor),
+                                ),
                               ),
                             ),
-                            child: Text(
-                              "Zaloguj",
-                              style: Theme.of(context).textTheme.displayMedium,
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              height: 1,
+                              width: 70,
+                              color: primaryColor,
                             ),
-                          ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5),
+                              child: Text(
+                                "LUB",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineSmall
+                                    ?.copyWith(color: blackColor),
+                              ),
+                            ),
+                            Container(
+                              height: 1,
+                              width: 70,
+                              color: primaryColor,
+                            ),
+                          ],
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            IconButton(
+                              onPressed: () {},
+                              icon: const Icon(
+                                FontAwesomeIcons.google,
+                                color: seedColor,
+                              ),
+                              splashRadius: 0.1,
+                            ),
+                            IconButton(
+                              onPressed: () {},
+                              icon: const Icon(
+                                FontAwesomeIcons.facebook,
+                                color: seedColor,
+                              ),
+                              splashRadius: 0.1,
+                            ),
+                          ],
                         ),
                       ],
                     ),
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10),
-                        child: TextButton(
-                          onPressed: () =>
-                              context.read<AuthBloc>().navigateToRegisterPage(),
-                          child: Text(
-                            "Nie masz konta ? Zarejestruj się",
-                            style: Theme.of(context)
-                                .textTheme
-                                .headlineSmall
-                                ?.copyWith(color: blackColor),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        height: 1,
-                        width: 70,
-                        color: primaryColor,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 5),
-                        child: Text(
-                          "LUB",
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineSmall
-                              ?.copyWith(color: blackColor),
-                        ),
-                      ),
-                      Container(
-                        height: 1,
-                        width: 70,
-                        color: primaryColor,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          FontAwesomeIcons.google,
-                          color: seedColor,
-                        ),
-                        splashRadius: 0.1,
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          FontAwesomeIcons.facebook,
-                          color: seedColor,
-                        ),
-                        splashRadius: 0.1,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
           ),
         );
       },

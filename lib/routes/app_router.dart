@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:time_trackify/pages/home_page.dart';
 import 'package:time_trackify/pages/login_page.dart';
 import 'package:time_trackify/pages/register_page.dart';
+import 'package:time_trackify/pages/authentication_flow_screen.dart';
 
 part 'app_router.gr.dart';
 
@@ -10,7 +11,8 @@ part 'app_router.gr.dart';
 class AppRouter extends _$AppRouter {
   @override
   List<AutoRoute> get routes => [
-        AutoRoute(page: LoginRoute.page, initial: true),
+        AutoRoute(page: AuthenticationFlowRoute.page, initial: true),
+        AutoRoute(page: LoginRoute.page),
         AutoRoute(page: RegistrationRoute.page),
         AutoRoute(page: HomeRoute.page),
       ];
