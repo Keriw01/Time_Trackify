@@ -100,6 +100,7 @@ class AuthBloc extends BaseCubit<AuthState> {
     } catch (e) {
       emit(state.copyWith(isLoading: false));
     } finally {
+      _navigateToAuthenticationFlowScreen();
       _clearState();
     }
   }
@@ -112,6 +113,11 @@ class AuthBloc extends BaseCubit<AuthState> {
   void navigateToRegisterPage() {
     _clearState();
     appRouter.navigate(RegistrationRoute());
+  }
+
+  void _navigateToAuthenticationFlowScreen() {
+    _clearState();
+    appRouter.navigate(const AuthenticationFlowRoute());
   }
 
   void _clearState() {

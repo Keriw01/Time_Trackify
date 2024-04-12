@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:time_trackify/pages/home_page.dart';
 import 'package:time_trackify/pages/login_page.dart';
 import 'package:flutter/material.dart';
+import 'package:time_trackify/routes/app_router.dart';
 
 @RoutePage()
 class AuthenticationFlowScreen extends StatelessWidget {
@@ -15,10 +15,39 @@ class AuthenticationFlowScreen extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return HomePage();
-          } else {
-            return LoginPage();
+            return AutoTabsRouter(
+              routes: const [
+                QrRoute(),
+                StatisticsRoute(),
+              ],
+              builder: (context, child) {
+                final tabsRouter = AutoTabsRouter.of(context);
+                return Scaffold(
+                  appBar: AppBar(
+                    title: const Text('Time Trackify'),
+                  ),
+                  body: child,
+                  bottomNavigationBar: BottomNavigationBar(
+                    currentIndex: tabsRouter.activeIndex,
+                    onTap: (value) {
+                      tabsRouter.setActiveIndex(value);
+                    },
+                    items: const [
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.bar_chart_sharp),
+                        label: 'Statistics',
+                      ),
+                      BottomNavigationBarItem(
+                        icon: Icon(Icons.qr_code),
+                        label: 'Scan QR',
+                      ),
+                    ],
+                  ),
+                );
+              },
+            );
           }
+          return LoginPage();
         },
       ),
     );
