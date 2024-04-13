@@ -25,6 +25,12 @@ class AuthenticationFlowScreen extends StatelessWidget {
                 return Scaffold(
                   appBar: AppBar(
                     title: const Text('Time Trackify'),
+                    actions: [
+                      IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Icons.person),
+                      )
+                    ],
                   ),
                   body: child,
                   bottomNavigationBar: BottomNavigationBar(

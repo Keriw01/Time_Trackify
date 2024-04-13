@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:time_trackify/pages/auth/login_page.dart';
-import 'package:time_trackify/pages/qr_page.dart';
+import 'package:time_trackify/pages/qr_scanner/qr_page.dart';
 import 'package:time_trackify/pages/auth/register_page.dart';
 import 'package:time_trackify/pages/authentication_flow_screen.dart';
 import 'package:time_trackify/pages/statistics_page.dart';

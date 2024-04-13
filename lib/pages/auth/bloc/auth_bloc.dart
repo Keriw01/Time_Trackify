@@ -14,7 +14,7 @@ part 'auth_bloc.g.dart';
 /// AuthBloc is responsible for managing authorization in the application
 class AuthBloc extends BaseCubit<AuthState> {
   late final FirebaseAuthService _firebaseAuthService = FirebaseAuthService();
-  late final FirestoreService firestoreService = FirestoreService();
+  late final FirestoreService _firestoreService = FirestoreService();
 
   AuthBloc(AppRouter appRouter, BuildContext context)
       : super(
@@ -68,7 +68,7 @@ class AuthBloc extends BaseCubit<AuthState> {
       if (user != null) {
         emit(state.copyWith(isLoading: false));
 
-        await firestoreService.updateUserRole(user.userId);
+        await _firestoreService.updateUser(user.userId);
       } else {
         emit(state.copyWith(
           errorMessage: 'Nie poprawne dane',
@@ -116,7 +116,6 @@ class AuthBloc extends BaseCubit<AuthState> {
   }
 
   void _navigateToAuthenticationFlowScreen() {
-    _clearState();
     appRouter.navigate(const AuthenticationFlowRoute());
   }
 

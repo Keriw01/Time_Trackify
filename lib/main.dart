@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:time_trackify/pages/auth/bloc/auth_bloc.dart';
+import 'package:time_trackify/pages/qr_scanner/bloc/qr_bloc.dart';
 import 'package:time_trackify/routes/app_router.dart';
 import 'package:time_trackify/styles/theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,6 +28,10 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => AuthBloc(_appRouter, context),
           lazy: false,
+        ),
+        BlocProvider(
+          create: (context) => QrBloc(_appRouter, context),
+          lazy: true,
         ),
       ],
       child: MaterialApp.router(
