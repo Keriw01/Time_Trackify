@@ -27,7 +27,8 @@ class AuthenticationFlowScreen extends StatelessWidget {
                     title: const Text('Time Trackify'),
                     actions: [
                       IconButton(
-                        onPressed: () {},
+                        onPressed: () =>
+                            context.router.navigate(const ProfileRoute()),
                         icon: const Icon(Icons.person),
                       )
                     ],

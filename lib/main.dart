@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:time_trackify/pages/auth/bloc/auth_bloc.dart';
+import 'package:time_trackify/pages/profile/bloc/profile_bloc.dart';
 import 'package:time_trackify/pages/qr_scanner/bloc/qr_bloc.dart';
 import 'package:time_trackify/routes/app_router.dart';
 import 'package:time_trackify/styles/theme.dart';
@@ -28,6 +29,10 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => QrBloc(_appRouter, context),
+          lazy: true,
+        ),
+        BlocProvider(
+          create: (context) => ProfileBloc(_appRouter, context),
           lazy: true,
         ),
       ],

@@ -9,7 +9,7 @@ part of 'auth_bloc.dart';
 abstract class _$AuthStateCWProxy {
   AuthState isLoading(bool isLoading);
 
-  AuthState errorMessage(String errorMessage);
+  AuthState errorMessage(String? errorMessage);
 
   AuthState currentUser(CurrentUser? currentUser);
 
@@ -36,7 +36,7 @@ class _$AuthStateCWProxyImpl implements _$AuthStateCWProxy {
   AuthState isLoading(bool isLoading) => this(isLoading: isLoading);
 
   @override
-  AuthState errorMessage(String errorMessage) =>
+  AuthState errorMessage(String? errorMessage) =>
       this(errorMessage: errorMessage);
 
   @override
@@ -61,11 +61,10 @@ class _$AuthStateCWProxyImpl implements _$AuthStateCWProxy {
           ? _value.isLoading
           // ignore: cast_nullable_to_non_nullable
           : isLoading as bool,
-      errorMessage:
-          errorMessage == const $CopyWithPlaceholder() || errorMessage == null
-              ? _value.errorMessage
-              // ignore: cast_nullable_to_non_nullable
-              : errorMessage as String,
+      errorMessage: errorMessage == const $CopyWithPlaceholder()
+          ? _value.errorMessage
+          // ignore: cast_nullable_to_non_nullable
+          : errorMessage as String?,
       currentUser: currentUser == const $CopyWithPlaceholder()
           ? _value.currentUser
           // ignore: cast_nullable_to_non_nullable

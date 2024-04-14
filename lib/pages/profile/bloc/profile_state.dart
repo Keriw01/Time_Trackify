@@ -1,21 +1,21 @@
-part of 'auth_bloc.dart';
+part of 'profile_bloc.dart';
 
 @CopyWith()
-class AuthState with EquatableMixin {
+class ProfileState with EquatableMixin {
   final String? errorMessage;
   final bool isLoading;
-  final CurrentUser? currentUser;
+  final UserData? userData;
 
-  AuthState({
+  ProfileState({
     this.isLoading = false,
     this.errorMessage,
-    this.currentUser,
+    this.userData,
   });
 
   @override
   List<Object?> get props => [
         isLoading,
         errorMessage,
-        currentUser,
+        userData,
       ];
 }

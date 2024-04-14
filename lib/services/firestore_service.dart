@@ -10,11 +10,13 @@ class FirestoreService {
     String userId, {
     String role = 'worker',
     String status = 'absent',
+    String userName = 'not set',
   }) async {
     try {
       await _firestore.collection('Users').doc(userId).update({
         'role': role,
         'status': status,
+        'userName': userName,
       });
     } catch (e) {
       throw FirestoreException();

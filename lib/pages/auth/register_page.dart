@@ -137,9 +137,9 @@ class RegistrationPage extends StatelessWidget {
                                   obscureText: true,
                                 ),
                               ),
-                              if (state.errorMessage != '')
+                              if (state.errorMessage != null)
                                 Text(
-                                  state.errorMessage,
+                                  state.errorMessage!,
                                   style: const TextStyle(
                                     color: Colors.red,
                                     fontSize: 12.0,
