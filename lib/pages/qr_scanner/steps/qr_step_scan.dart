@@ -24,8 +24,8 @@ class QrStepScan extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.only(bottom: 20),
           child: ElevatedButton(
-            onPressed: () => context.read<QrBloc>().navigateToQrPage(),
-            child: Text('Close'),
+            onPressed: () => context.read<QrBloc>().setStepQrPure(),
+            child: const Text('Close'),
           ),
         )
       ],

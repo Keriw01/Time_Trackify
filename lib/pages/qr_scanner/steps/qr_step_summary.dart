@@ -36,7 +36,7 @@ class QrStepSummary extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ElevatedButton(
-                    onPressed: () => context.read<QrBloc>().setStepOne(),
+                    onPressed: () => context.read<QrBloc>().setStepQrScan(),
                     child: const Text('Back'),
                   ),
                   const SizedBox(

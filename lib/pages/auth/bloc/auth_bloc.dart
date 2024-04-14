@@ -1,7 +1,7 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:equatable/equatable.dart';
 import 'package:time_trackify/base_cubit.dart';
-import 'package:time_trackify/exceptions/auth_exceptions.dart';
+import 'package:time_trackify/exceptions/exceptions.dart';
 import 'package:time_trackify/models/current_user.dart';
 import 'package:time_trackify/services/firebase_auth_service.dart';
 import 'package:flutter/widgets.dart';
@@ -33,6 +33,7 @@ class AuthBloc extends BaseCubit<AuthState> {
     try {
       final CurrentUser? user = await _firebaseAuthService
           .signInWithEmailAndPassword(email, password);
+
       if (user != null) {
         emit(state.copyWith(isLoading: false));
       } else {
@@ -97,8 +98,16 @@ class AuthBloc extends BaseCubit<AuthState> {
     );
     try {
       await _firebaseAuthService.signOutUser();
+    } on DefaultException {
+      emit(state.copyWith(
+        errorMessage: 'Błąd Firebase',
+        isLoading: false,
+      ));
     } catch (e) {
-      emit(state.copyWith(isLoading: false));
+      emit(state.copyWith(
+        errorMessage: 'Błąd',
+        isLoading: false,
+      ));
     } finally {
       _navigateToAuthenticationFlowScreen();
       _clearState();

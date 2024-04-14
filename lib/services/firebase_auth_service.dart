@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:time_trackify/exceptions/auth_exceptions.dart';
+import 'package:time_trackify/exceptions/exceptions.dart';
 import 'package:time_trackify/models/current_user.dart';
 
 class FirebaseAuthService {
@@ -68,9 +68,13 @@ class FirebaseAuthService {
 
   ///signOutUser
   Future<void> signOutUser() async {
-    final User? firebaseUser = FirebaseAuth.instance.currentUser;
-    if (firebaseUser != null) {
-      await FirebaseAuth.instance.signOut();
+    try {
+      final User? firebaseUser = FirebaseAuth.instance.currentUser;
+      if (firebaseUser != null) {
+        await FirebaseAuth.instance.signOut();
+      }
+    } catch (e) {
+      throw DefaultException();
     }
   }
 }

@@ -13,7 +13,14 @@ class QrPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<QrBloc, QrState>(
+    return BlocConsumer<QrBloc, QrState>(
+      listener: (context, state) {
+        if (state.errorMessage != null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(state.errorMessage!)),
+          );
+        }
+      },
       builder: (context, state) {
         if (state.isLoading) {
           return const LoadingIndicator();

@@ -15,6 +15,10 @@ abstract class _$QrStateCWProxy {
 
   QrState barcode(String? barcode);
 
+  QrState qrCodes(List<QrCodes>? qrCodes);
+
+  QrState errorMessage(String? errorMessage);
+
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `QrState(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
   /// Usage
@@ -26,6 +30,8 @@ abstract class _$QrStateCWProxy {
     QrStep? currentQrStep,
     bool? isLoading,
     String? barcode,
+    List<QrCodes>? qrCodes,
+    String? errorMessage,
   });
 }
 
@@ -49,6 +55,13 @@ class _$QrStateCWProxyImpl implements _$QrStateCWProxy {
   QrState barcode(String? barcode) => this(barcode: barcode);
 
   @override
+  QrState qrCodes(List<QrCodes>? qrCodes) => this(qrCodes: qrCodes);
+
+  @override
+  QrState errorMessage(String? errorMessage) =>
+      this(errorMessage: errorMessage);
+
+  @override
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `QrState(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -61,6 +74,8 @@ class _$QrStateCWProxyImpl implements _$QrStateCWProxy {
     Object? currentQrStep = const $CopyWithPlaceholder(),
     Object? isLoading = const $CopyWithPlaceholder(),
     Object? barcode = const $CopyWithPlaceholder(),
+    Object? qrCodes = const $CopyWithPlaceholder(),
+    Object? errorMessage = const $CopyWithPlaceholder(),
   }) {
     return QrState(
       userData: userData == const $CopyWithPlaceholder()
@@ -80,6 +95,14 @@ class _$QrStateCWProxyImpl implements _$QrStateCWProxy {
           ? _value.barcode
           // ignore: cast_nullable_to_non_nullable
           : barcode as String?,
+      qrCodes: qrCodes == const $CopyWithPlaceholder()
+          ? _value.qrCodes
+          // ignore: cast_nullable_to_non_nullable
+          : qrCodes as List<QrCodes>?,
+      errorMessage: errorMessage == const $CopyWithPlaceholder()
+          ? _value.errorMessage
+          // ignore: cast_nullable_to_non_nullable
+          : errorMessage as String?,
     );
   }
 }

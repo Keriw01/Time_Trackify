@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:time_trackify/exceptions/exceptions.dart';
+import 'package:time_trackify/models/qr_codes.dart';
 import 'package:time_trackify/models/user_data.dart';
-import 'package:time_trackify/utils/converts.dart';
 
 class FirestoreService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -16,8 +17,7 @@ class FirestoreService {
         'status': status,
       });
     } catch (e) {
-      print('Wystąpił błąd podczas aktualizacji roli użytkownika: $e');
-      throw e;
+      throw FirestoreException();
     }
   }
 
@@ -29,17 +29,28 @@ class FirestoreService {
       Map<String, dynamic>? data = snapshot.data();
 
       if (data != null) {
-        String statusString = data['status'];
-        String status = convertStringToUserStatus(statusString);
-        data['status'] = status;
         return UserData.fromJson(data);
       } else {
-        print('Document with ID $userId does not exist.');
-        throw Exception();
+        throw DocumentIdNotExist();
       }
     } catch (e) {
-      print('Wystąpił błąd podczas pobierania użytkownika: $e');
-      throw e;
+      throw FirestoreException();
+    }
+  }
+
+  Future<List<QrCodes>> getQrCodes() async {
+    try {
+      QuerySnapshot<Map<String, dynamic>> snapshot =
+          await _firestore.collection('QrCodes').get();
+
+      List<QrCodes> qrCodesList = snapshot.docs
+          .map((DocumentSnapshot<Map<String, dynamic>> doc) =>
+              QrCodes.fromJson(doc.data()!))
+          .toList();
+
+      return qrCodesList;
+    } catch (e) {
+      throw FirestoreException();
     }
   }
 }
