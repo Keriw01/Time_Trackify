@@ -15,12 +15,10 @@ abstract class _$AppRouter extends RootStackRouter {
 
   @override
   final Map<String, PageFactory> pagesMap = {
-    HomeRoute.name: (routeData) {
-      final args =
-          routeData.argsAs<HomeRouteArgs>(orElse: () => const HomeRouteArgs());
+    AuthenticationFlowRoute.name: (routeData) {
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: HomePage(key: args.key),
+        child: const AuthenticationFlowScreen(),
       );
     },
     LoginRoute.name: (routeData) {
@@ -31,6 +29,18 @@ abstract class _$AppRouter extends RootStackRouter {
         child: LoginPage(key: args.key),
       );
     },
+    ProfileRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const ProfilePage(),
+      );
+    },
+    QrRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const QrPage(),
+      );
+    },
     RegistrationRoute.name: (routeData) {
       final args = routeData.argsAs<RegistrationRouteArgs>(
           orElse: () => const RegistrationRouteArgs());
@@ -39,35 +49,27 @@ abstract class _$AppRouter extends RootStackRouter {
         child: RegistrationPage(key: args.key),
       );
     },
+    StatisticsRoute.name: (routeData) {
+      return AutoRoutePage<dynamic>(
+        routeData: routeData,
+        child: const StatisticsPage(),
+      );
+    },
   };
 }
 
 /// generated route for
-/// [HomePage]
-class HomeRoute extends PageRouteInfo<HomeRouteArgs> {
-  HomeRoute({
-    Key? key,
-    List<PageRouteInfo>? children,
-  }) : super(
-          HomeRoute.name,
-          args: HomeRouteArgs(key: key),
+/// [AuthenticationFlowScreen]
+class AuthenticationFlowRoute extends PageRouteInfo<void> {
+  const AuthenticationFlowRoute({List<PageRouteInfo>? children})
+      : super(
+          AuthenticationFlowRoute.name,
           initialChildren: children,
         );
 
-  static const String name = 'HomeRoute';
+  static const String name = 'AuthenticationFlowRoute';
 
-  static const PageInfo<HomeRouteArgs> page = PageInfo<HomeRouteArgs>(name);
-}
-
-class HomeRouteArgs {
-  const HomeRouteArgs({this.key});
-
-  final Key? key;
-
-  @override
-  String toString() {
-    return 'HomeRouteArgs{key: $key}';
-  }
+  static const PageInfo<void> page = PageInfo<void>(name);
 }
 
 /// generated route for
@@ -99,6 +101,34 @@ class LoginRouteArgs {
 }
 
 /// generated route for
+/// [ProfilePage]
+class ProfileRoute extends PageRouteInfo<void> {
+  const ProfileRoute({List<PageRouteInfo>? children})
+      : super(
+          ProfileRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ProfileRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
+/// [QrPage]
+class QrRoute extends PageRouteInfo<void> {
+  const QrRoute({List<PageRouteInfo>? children})
+      : super(
+          QrRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'QrRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
+}
+
+/// generated route for
 /// [RegistrationPage]
 class RegistrationRoute extends PageRouteInfo<RegistrationRouteArgs> {
   RegistrationRoute({
@@ -125,4 +155,18 @@ class RegistrationRouteArgs {
   String toString() {
     return 'RegistrationRouteArgs{key: $key}';
   }
+}
+
+/// generated route for
+/// [StatisticsPage]
+class StatisticsRoute extends PageRouteInfo<void> {
+  const StatisticsRoute({List<PageRouteInfo>? children})
+      : super(
+          StatisticsRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'StatisticsRoute';
+
+  static const PageInfo<void> page = PageInfo<void>(name);
 }

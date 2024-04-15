@@ -9,9 +9,7 @@ part of 'auth_bloc.dart';
 abstract class _$AuthStateCWProxy {
   AuthState isLoading(bool isLoading);
 
-  AuthState errorMessage(String errorMessage);
-
-  AuthState isLoggedIn(bool isLoggedIn);
+  AuthState errorMessage(String? errorMessage);
 
   AuthState currentUser(CurrentUser? currentUser);
 
@@ -24,7 +22,6 @@ abstract class _$AuthStateCWProxy {
   AuthState call({
     bool? isLoading,
     String? errorMessage,
-    bool? isLoggedIn,
     CurrentUser? currentUser,
   });
 }
@@ -39,11 +36,8 @@ class _$AuthStateCWProxyImpl implements _$AuthStateCWProxy {
   AuthState isLoading(bool isLoading) => this(isLoading: isLoading);
 
   @override
-  AuthState errorMessage(String errorMessage) =>
+  AuthState errorMessage(String? errorMessage) =>
       this(errorMessage: errorMessage);
-
-  @override
-  AuthState isLoggedIn(bool isLoggedIn) => this(isLoggedIn: isLoggedIn);
 
   @override
   AuthState currentUser(CurrentUser? currentUser) =>
@@ -60,7 +54,6 @@ class _$AuthStateCWProxyImpl implements _$AuthStateCWProxy {
   AuthState call({
     Object? isLoading = const $CopyWithPlaceholder(),
     Object? errorMessage = const $CopyWithPlaceholder(),
-    Object? isLoggedIn = const $CopyWithPlaceholder(),
     Object? currentUser = const $CopyWithPlaceholder(),
   }) {
     return AuthState(
@@ -68,16 +61,10 @@ class _$AuthStateCWProxyImpl implements _$AuthStateCWProxy {
           ? _value.isLoading
           // ignore: cast_nullable_to_non_nullable
           : isLoading as bool,
-      errorMessage:
-          errorMessage == const $CopyWithPlaceholder() || errorMessage == null
-              ? _value.errorMessage
-              // ignore: cast_nullable_to_non_nullable
-              : errorMessage as String,
-      isLoggedIn:
-          isLoggedIn == const $CopyWithPlaceholder() || isLoggedIn == null
-              ? _value.isLoggedIn
-              // ignore: cast_nullable_to_non_nullable
-              : isLoggedIn as bool,
+      errorMessage: errorMessage == const $CopyWithPlaceholder()
+          ? _value.errorMessage
+          // ignore: cast_nullable_to_non_nullable
+          : errorMessage as String?,
       currentUser: currentUser == const $CopyWithPlaceholder()
           ? _value.currentUser
           // ignore: cast_nullable_to_non_nullable

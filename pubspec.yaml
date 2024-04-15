@@ -49,6 +49,7 @@ dependencies:
   freezed: ^2.4.7
   font_awesome_flutter: ^10.7.0
   tuple: ^2.0.2
+  mobile_scanner: ^4.0.1
 
 dev_dependencies:
   flutter_test:
