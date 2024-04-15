@@ -14,6 +14,7 @@ class QrState with EquatableMixin {
   final String? barcode;
   final List<QrCodes>? qrCodes;
   final String? errorMessage;
+  final bool isCameraAllowed;
 
   QrState({
     this.userData,
@@ -22,6 +23,7 @@ class QrState with EquatableMixin {
     this.barcode,
     this.qrCodes,
     this.errorMessage,
+    this.isCameraAllowed = false,
   });
 
   @override
@@ -32,5 +34,6 @@ class QrState with EquatableMixin {
         barcode,
         qrCodes,
         errorMessage,
+        isCameraAllowed,
       ];
 }

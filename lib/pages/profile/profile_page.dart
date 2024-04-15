@@ -22,51 +22,49 @@ class ProfilePage extends StatelessWidget {
         }
       },
       builder: (context, state) {
-        if (state.isLoading) {
-          return const LoadingIndicator();
-        }
-
         return Scaffold(
           appBar: AppBar(
             title: const Text('Profile'),
           ),
-          body: Padding(
-            padding: const EdgeInsets.all(20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Username: ${state.userData?.userName}',
-                  style: Theme.of(context).textTheme.titleMedium,
+          body: state.isLoading
+              ? const LoadingIndicator()
+              : Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Username: ${state.userData?.userName}',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        'Email: ${state.userData?.email}',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        'Role: ${state.userData?.role}',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        'Status: ${state.userData?.status}',
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      const Spacer(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () => context.read<AuthBloc>().logOut(),
+                            child: const Text('Log Out'),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-                const SizedBox(height: 10),
-                Text(
-                  'Email: ${state.userData?.email}',
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  'Role: ${state.userData?.role}',
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                const SizedBox(height: 10),
-                Text(
-                  'Status: ${state.userData?.status}',
-                  style: Theme.of(context).textTheme.titleMedium,
-                ),
-                const Spacer(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () => context.read<AuthBloc>().logOut(),
-                      child: const Text('Log Out'),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
         );
       },
     );

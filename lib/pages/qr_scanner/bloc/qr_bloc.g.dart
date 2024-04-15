@@ -19,6 +19,8 @@ abstract class _$QrStateCWProxy {
 
   QrState errorMessage(String? errorMessage);
 
+  QrState isCameraAllowed(bool isCameraAllowed);
+
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `QrState(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
   /// Usage
@@ -32,6 +34,7 @@ abstract class _$QrStateCWProxy {
     String? barcode,
     List<QrCodes>? qrCodes,
     String? errorMessage,
+    bool? isCameraAllowed,
   });
 }
 
@@ -62,6 +65,10 @@ class _$QrStateCWProxyImpl implements _$QrStateCWProxy {
       this(errorMessage: errorMessage);
 
   @override
+  QrState isCameraAllowed(bool isCameraAllowed) =>
+      this(isCameraAllowed: isCameraAllowed);
+
+  @override
 
   /// This function **does support** nullification of nullable fields. All `null` values passed to `non-nullable` fields will be ignored. You can also use `QrState(...).copyWith.fieldName(...)` to override fields one at a time with nullification support.
   ///
@@ -76,6 +83,7 @@ class _$QrStateCWProxyImpl implements _$QrStateCWProxy {
     Object? barcode = const $CopyWithPlaceholder(),
     Object? qrCodes = const $CopyWithPlaceholder(),
     Object? errorMessage = const $CopyWithPlaceholder(),
+    Object? isCameraAllowed = const $CopyWithPlaceholder(),
   }) {
     return QrState(
       userData: userData == const $CopyWithPlaceholder()
@@ -103,6 +111,11 @@ class _$QrStateCWProxyImpl implements _$QrStateCWProxy {
           ? _value.errorMessage
           // ignore: cast_nullable_to_non_nullable
           : errorMessage as String?,
+      isCameraAllowed: isCameraAllowed == const $CopyWithPlaceholder() ||
+              isCameraAllowed == null
+          ? _value.isCameraAllowed
+          // ignore: cast_nullable_to_non_nullable
+          : isCameraAllowed as bool,
     );
   }
 }

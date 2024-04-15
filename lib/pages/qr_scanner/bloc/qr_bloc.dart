@@ -1,6 +1,7 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:time_trackify/base_cubit.dart';
 import 'package:time_trackify/exceptions/exceptions.dart';
 import 'package:time_trackify/models/qr_codes.dart';
@@ -114,8 +115,47 @@ class QrBloc extends BaseCubit<QrState> {
     }
   }
 
-  void setStepQrScan() {
-    emit(state.copyWith(currentQrStep: QrStep.scan));
+  void setStepQrScan() async {
+    var status = await Permission.camera.status;
+
+    if (status.isGranted) {
+      emit(state.copyWith(
+        currentQrStep: QrStep.scan,
+        isCameraAllowed: true,
+      ));
+      return;
+    }
+
+    if (status.isDenied) {
+      const permission = Permission.camera;
+      await permission.request();
+
+      var updatedStatus = await permission.status;
+
+      if (updatedStatus.isGranted) {
+        emit(state.copyWith(
+          currentQrStep: QrStep.scan,
+          isCameraAllowed: true,
+        ));
+        return;
+      } else {
+        emit(state.copyWith(
+          currentQrStep: QrStep.pure,
+          errorMessage: 'Brak uprawnień',
+          isCameraAllowed: false,
+        ));
+        return;
+      }
+    }
+
+    if (await Permission.camera.isPermanentlyDenied) {
+      emit(state.copyWith(
+        errorMessage: 'Brak uprawnień',
+        isCameraAllowed: false,
+      ));
+      openAppSettings();
+      return;
+    }
   }
 
   void setStepQrPure() {
