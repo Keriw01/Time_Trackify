@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:time_trackify/pages/auth/bloc/auth_bloc.dart';
 import 'package:time_trackify/pages/profile/bloc/profile_bloc.dart';
+import 'package:time_trackify/widgets/loading_indicator.dart';
 
 @RoutePage()
 class ProfilePage extends StatelessWidget {
@@ -21,6 +22,10 @@ class ProfilePage extends StatelessWidget {
         }
       },
       builder: (context, state) {
+        if (state.isLoading) {
+          return const LoadingIndicator();
+        }
+
         return Scaffold(
           appBar: AppBar(
             title: const Text('Profile'),
