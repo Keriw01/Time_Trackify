@@ -29,9 +29,7 @@ class QrBloc extends BaseCubit<QrState> {
       emit(state.copyWith(isLoading: true));
 
       User? user = FirebaseAuth.instance.currentUser;
-
       UserData userData = await firestoreService.getUser(user?.uid);
-
       List<QrCodes> qrCodes = await firestoreService.getQrCodes();
 
       emit(state.copyWith(
@@ -96,6 +94,12 @@ class QrBloc extends BaseCubit<QrState> {
       await firestoreService.updateUser(user!.uid,
           status: scannedQrCode!.status);
 
+      await firestoreService.addToWorkLogs(
+        user.uid,
+        DateTime.now(),
+        scannedQrCode.qrCode,
+      );
+
       emit(state.copyWith(
         userData: state.userData?.copyWith(status: scannedQrCode.status),
         isLoading: false,
@@ -115,16 +119,10 @@ class QrBloc extends BaseCubit<QrState> {
     }
   }
 
-  void setStepQrScan() async {
+  Future<bool> _handleCameraPermission() async {
     var status = await Permission.camera.status;
 
-    if (status.isGranted) {
-      emit(state.copyWith(
-        currentQrStep: QrStep.scan,
-        isCameraAllowed: true,
-      ));
-      return;
-    }
+    if (status.isGranted) return true;
 
     if (status.isDenied) {
       const permission = Permission.camera;
@@ -132,29 +130,28 @@ class QrBloc extends BaseCubit<QrState> {
 
       var updatedStatus = await permission.status;
 
-      if (updatedStatus.isGranted) {
-        emit(state.copyWith(
-          currentQrStep: QrStep.scan,
-          isCameraAllowed: true,
-        ));
-        return;
-      } else {
-        emit(state.copyWith(
-          currentQrStep: QrStep.pure,
-          errorMessage: 'Brak uprawnień',
-          isCameraAllowed: false,
-        ));
-        return;
-      }
+      if (updatedStatus.isGranted) return true;
     }
 
-    if (await Permission.camera.isPermanentlyDenied) {
+    if (await Permission.camera.isPermanentlyDenied) openAppSettings();
+
+    return false;
+  }
+
+  void setStepQrScan() async {
+    bool isCameraAllowed = await _handleCameraPermission();
+
+    if (isCameraAllowed) {
       emit(state.copyWith(
+        currentQrStep: QrStep.scan,
+        isCameraAllowed: true,
+      ));
+    } else {
+      emit(state.copyWith(
+        currentQrStep: QrStep.pure,
         errorMessage: 'Brak uprawnień',
         isCameraAllowed: false,
       ));
-      openAppSettings();
-      return;
     }
   }
 
