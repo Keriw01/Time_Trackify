@@ -1,4 +1,4 @@
-String convertStringToUserStatus(String statusString) {
+String convertStringToUserStatus(String? statusString) {
   switch (statusString) {
     case 'absent':
       return 'nieobecny';

@@ -21,7 +21,7 @@ class QrStepPure extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               Text(
-                convertStringToUserStatus(state.userData!.status),
+                convertStringToUserStatus(state.userData?.status),
                 style: Theme.of(context)
                     .textTheme
                     .titleMedium

@@ -70,6 +70,7 @@ class AuthBloc extends BaseCubit<AuthState> {
         emit(state.copyWith(isLoading: false));
 
         await _firestoreService.updateUser(user.userId);
+        _navigateToAuthenticationFlowScreen();
       } else {
         emit(state.copyWith(
           errorMessage: 'Nie poprawne dane',
