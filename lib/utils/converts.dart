@@ -6,8 +6,10 @@ String convertStringToUserStatus(String statusString) {
       return 'w pracy';
     case 'working':
       return 'pracuje';
-    case 'break':
+    case 'startBreak':
       return 'na przerwie';
+    case 'endedBreak':
+      return 'po przerwie (w pracy)';
     default:
       return '';
   }

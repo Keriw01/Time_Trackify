@@ -96,18 +96,20 @@ class FirestoreService {
             print("Nie zakończono pracy");
           }
         } else if (scannedQrCode.startsWith("L")) {
-          Map<String, dynamic> lastLog = logs.last;
+          if (workLogs.last.endWork == null) {
+            Map<String, dynamic> lastLog = logs.last;
 
-          lastLog['endWork'] = WorkEvent(
-            qrCode: scannedQrCode,
-            time: currentTime,
-          ).toJson();
+            lastLog['endWork'] = WorkEvent(
+              qrCode: scannedQrCode,
+              time: currentTime,
+            ).toJson();
 
-          logs[logs.length - 1] = lastLog;
+            logs[logs.length - 1] = lastLog;
 
-          await userDocRef.update({
-            'Logs': logs,
-          });
+            await userDocRef.update({
+              'Logs': logs,
+            });
+          }
         } else if (scannedQrCode.startsWith("B")) {
           // jeżeli pusta/brak listy breaks dodajemy listę z wpisem o starcie czasu przerwy pierwszej
           if (workLogs.last.breaks == null || workLogs.last.breaks!.isEmpty) {
@@ -126,10 +128,8 @@ class FirestoreService {
             await userDocRef.update({
               'Logs': logs,
             });
-          }
-
-          // jeżeli wypełniony ostatni indeks w tablicy breaks, czas startu przerwy to updatujemy endTime przerwy, jeżeli ponownie zeskanowaliśmy
-          if (workLogs.last.breaks?.last.endTime == null &&
+          } // jeżeli wypełniony ostatni indeks w tablicy breaks, czas startu przerwy to updatujemy endTime przerwy, jeżeli ponownie zeskanowaliśmy
+          else if (workLogs.last.breaks?.last.endTime == null &&
               workLogs.last.endWork == null) {
             Map<String, dynamic> lastLog = logs.last;
             List<dynamic> breaksList = lastLog['breaks'];
@@ -142,10 +142,8 @@ class FirestoreService {
             await userDocRef.update({
               'Logs': logs,
             });
-          }
-
-          // jeżeli wypełniony ostatni indeks w tablicy breaks, czas zakończenia przerwy to tworzymy nowy indeks w tabeli breaks z czasem startTime
-          if (workLogs.last.breaks?.last.endTime != null &&
+          } // jeżeli wypełniony ostatni indeks w tablicy breaks, czas zakończenia przerwy to tworzymy nowy indeks w tabeli breaks z czasem startTime
+          else if (workLogs.last.breaks?.last.endTime != null &&
               workLogs.last.endWork == null) {
             Map<String, dynamic> lastLog = logs.last;
 
