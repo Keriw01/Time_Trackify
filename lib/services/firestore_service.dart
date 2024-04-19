@@ -93,7 +93,7 @@ class FirestoreService {
               'Logs': logs,
             });
           } else {
-            print("Nie zakończono pracy");
+            throw NotFinishedWork();
           }
         } else if (scannedQrCode.startsWith("L")) {
           if (workLogs.last.endWork == null) {

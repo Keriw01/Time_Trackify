@@ -7,3 +7,5 @@ class UserAlreadyExistsError implements Exception {}
 class FirestoreException implements Exception {}
 
 class DocumentIdNotExist implements Exception {}
+
+class NotFinishedWork implements Exception {}

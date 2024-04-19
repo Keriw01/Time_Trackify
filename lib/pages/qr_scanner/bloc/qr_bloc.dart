@@ -111,6 +111,11 @@ class QrBloc extends BaseCubit<QrState> {
         errorMessage: 'Błąd z cloud firestore',
         isLoading: false,
       ));
+    } on NotFinishedWork {
+      emit(state.copyWith(
+        errorMessage: 'Nie zakończono pracy !',
+        isLoading: false,
+      ));
     } catch (e) {
       emit(state.copyWith(
         errorMessage: 'Wystąpił błąd podczas zatwierdzania kodu QR',
