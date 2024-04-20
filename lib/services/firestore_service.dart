@@ -26,7 +26,8 @@ class FirestoreService {
   }
 
   Future<UserData> getUser(String? userId) async {
-    /// TODO Błąd w przypadku rejestracji użytkownika ponieważ listener w auth_flow_screen przenosi na Qr_page gdzie tworzy qr_bloc próbując uzyskać dane użytkownika z userId który nie zdążył zostać utworzony przez metodę updtateUser w register.
+    /// TODO Błąd w przypadku rejestracji użytkownika, ponieważ listener w auth_flow_screen przenosi na Qr_page gdzie tworzy qr_bloc
+    /// próbując uzyskać dane użytkownika z userId który nie zdążył zostać utworzony przez metodę updtateUser w register.
     try {
       DocumentSnapshot<Map<String, dynamic>> snapshot =
           await _firestore.collection('Users').doc(userId).get();

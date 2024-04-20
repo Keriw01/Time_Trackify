@@ -57,7 +57,9 @@ class ProfilePage extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           ElevatedButton(
-                            onPressed: () => context.read<AuthBloc>().logOut(),
+                            onPressed: () => context
+                                .read<AuthBloc>()
+                                .logOutWithContext(context),
                             child: const Text('Log Out'),
                           ),
                         ],

@@ -18,11 +18,9 @@ class ProfileBloc extends BaseCubit<ProfileState> {
       : super(
           appRouter,
           ProfileState(),
-        ) {
-    _getUserData();
-  }
+        );
 
-  Future<void> _getUserData() async {
+  Future<void> getUserData() async {
     try {
       emit(state.copyWith(isLoading: true));
 
@@ -50,5 +48,15 @@ class ProfileBloc extends BaseCubit<ProfileState> {
         isLoading: false,
       ));
     }
+  }
+
+  void clearProfileBlocState() {
+    emit(
+      state.copyWith(
+        userData: null,
+        isLoading: false,
+        errorMessage: null,
+      ),
+    );
   }
 }

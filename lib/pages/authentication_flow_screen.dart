@@ -1,7 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:time_trackify/pages/auth/login_page.dart';
 import 'package:flutter/material.dart';
+import 'package:time_trackify/pages/profile/bloc/profile_bloc.dart';
+import 'package:time_trackify/pages/qr_scanner/bloc/qr_bloc.dart';
 import 'package:time_trackify/routes/app_router.dart';
 
 @RoutePage()
@@ -15,6 +18,7 @@ class AuthenticationFlowScreen extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
+            context.read<QrBloc>().getData();
             return AutoTabsRouter(
               routes: const [
                 QrRoute(),
@@ -27,8 +31,10 @@ class AuthenticationFlowScreen extends StatelessWidget {
                     title: const Text('Time Trackify'),
                     actions: [
                       IconButton(
-                        onPressed: () =>
-                            context.router.navigate(const ProfileRoute()),
+                        onPressed: () {
+                          context.read<ProfileBloc>().getUserData();
+                          context.router.navigate(const ProfileRoute());
+                        },
                         icon: const Icon(Icons.person),
                       )
                     ],

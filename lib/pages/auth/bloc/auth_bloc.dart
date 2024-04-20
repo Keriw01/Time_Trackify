@@ -1,8 +1,11 @@
 import 'package:copy_with_extension/copy_with_extension.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:time_trackify/base_cubit.dart';
 import 'package:time_trackify/exceptions/exceptions.dart';
 import 'package:time_trackify/models/current_user.dart';
+import 'package:time_trackify/pages/profile/bloc/profile_bloc.dart';
+import 'package:time_trackify/pages/qr_scanner/bloc/qr_bloc.dart';
 import 'package:time_trackify/services/firebase_auth_service.dart';
 import 'package:flutter/widgets.dart';
 import 'package:time_trackify/routes/app_router.dart';
@@ -90,13 +93,23 @@ class AuthBloc extends BaseCubit<AuthState> {
     }
   }
 
-  Future<void> logOut() async {
+  Future<void> logOutWithContext(BuildContext context) async {
     emit(
       state.copyWith(
         errorMessage: '',
         isLoading: true,
       ),
     );
+    context.read<QrBloc>().clearQrBlocState();
+    context.read<ProfileBloc>().clearProfileBlocState();
+    _clearState();
+
+    await logOut();
+
+    _navigateToAuthenticationFlowScreen();
+  }
+
+  Future<void> logOut() async {
     try {
       await _firebaseAuthService.signOutUser();
     } on DefaultException {
@@ -109,9 +122,6 @@ class AuthBloc extends BaseCubit<AuthState> {
         errorMessage: 'Błąd',
         isLoading: false,
       ));
-    } finally {
-      _navigateToAuthenticationFlowScreen();
-      _clearState();
     }
   }
 

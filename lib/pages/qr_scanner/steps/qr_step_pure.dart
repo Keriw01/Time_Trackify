@@ -15,20 +15,23 @@ class QrStepPure extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                'Aktualny stan w pracy',
-                style: Theme.of(context).textTheme.titleMedium,
+              Column(
+                children: [
+                  Text(
+                    'Aktualny stan',
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  const SizedBox(height: 10),
+                  convertUserStatusToCustomText(
+                      context, state.userData?.status),
+                ],
               ),
-              const SizedBox(height: 10),
-              Text(
-                convertStringToUserStatus(state.userData?.status),
-                style: Theme.of(context)
-                    .textTheme
-                    .titleMedium
-                    ?.copyWith(color: Colors.red),
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height / 3,
+              Expanded(
+                child: Align(
+                  alignment: Alignment.center,
+                  child: convertUserStatusToCustomIcon(
+                      context, state.userData?.status),
+                ),
               ),
               ElevatedButton(
                 onPressed: () => context.read<QrBloc>().setStepQrScan(),

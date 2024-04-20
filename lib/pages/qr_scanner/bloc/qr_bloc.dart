@@ -20,17 +20,15 @@ class QrBloc extends BaseCubit<QrState> {
       : super(
           appRouter,
           QrState(),
-        ) {
-    _getData();
-  }
+        );
 
-  Future<void> _getData() async {
+  Future<void> getData() async {
     try {
       emit(state.copyWith(isLoading: true));
 
       User? user = FirebaseAuth.instance.currentUser;
-      UserData userData = await firestoreService.getUser(user?.uid);
       List<QrCodes> qrCodes = await firestoreService.getQrCodes();
+      UserData userData = await firestoreService.getUser(user?.uid);
 
       emit(state.copyWith(
         userData: userData,
@@ -44,7 +42,7 @@ class QrBloc extends BaseCubit<QrState> {
       ));
     } on FirestoreException {
       emit(state.copyWith(
-        errorMessage: 'Błąd z cloud firestore',
+        // errorMessage: 'Błąd z cloud firestore',
         isLoading: false,
       ));
     } catch (e) {
@@ -165,5 +163,19 @@ class QrBloc extends BaseCubit<QrState> {
       currentQrStep: QrStep.pure,
       barcode: null,
     ));
+  }
+
+  void clearQrBlocState() {
+    emit(
+      state.copyWith(
+        currentQrStep: QrStep.pure,
+        userData: null,
+        isLoading: false,
+        barcode: null,
+        qrCodes: null,
+        errorMessage: null,
+        isCameraAllowed: false,
+      ),
+    );
   }
 }
