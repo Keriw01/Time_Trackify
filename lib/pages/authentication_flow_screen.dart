@@ -5,6 +5,7 @@ import 'package:time_trackify/pages/auth/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:time_trackify/pages/profile/bloc/profile_bloc.dart';
 import 'package:time_trackify/pages/qr_scanner/bloc/qr_bloc.dart';
+import 'package:time_trackify/pages/statistics/bloc/statistics_bloc.dart';
 import 'package:time_trackify/routes/app_router.dart';
 
 @RoutePage()
@@ -19,6 +20,8 @@ class AuthenticationFlowScreen extends StatelessWidget {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             context.read<QrBloc>().getData();
+            context.read<StatisticsBloc>().getStatisticsData();
+
             return AutoTabsRouter(
               routes: const [
                 QrRoute(),

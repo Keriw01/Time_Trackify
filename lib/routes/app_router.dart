@@ -5,7 +5,7 @@ import 'package:time_trackify/pages/profile/profile_page.dart';
 import 'package:time_trackify/pages/qr_scanner/qr_page.dart';
 import 'package:time_trackify/pages/auth/register_page.dart';
 import 'package:time_trackify/pages/authentication_flow_screen.dart';
-import 'package:time_trackify/pages/statistics_page.dart';
+import 'package:time_trackify/pages/statistics/statistics_page.dart';
 
 part 'app_router.gr.dart';
 

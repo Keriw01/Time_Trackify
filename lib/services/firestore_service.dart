@@ -4,6 +4,7 @@ import 'package:time_trackify/models/qr_codes.dart';
 import 'package:time_trackify/models/user_data.dart';
 import 'package:time_trackify/models/work_event.dart';
 import 'package:time_trackify/models/work_log.dart';
+import 'package:time_trackify/models/work_logs.dart';
 
 class FirestoreService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -182,6 +183,23 @@ class FirestoreService {
       }
     } catch (e) {
       print(e);
+      throw FirestoreException();
+    }
+  }
+
+  Future<WorkLogs> getWorkLogs(String? userId) async {
+    try {
+      DocumentSnapshot<Map<String, dynamic>> snapshot =
+          await _firestore.collection('WorkLogs').doc(userId).get();
+
+      Map<String, dynamic>? data = snapshot.data();
+
+      if (data != null) {
+        return WorkLogs.fromJson(data);
+      } else {
+        throw DocumentIdNotExist();
+      }
+    } catch (e) {
       throw FirestoreException();
     }
   }

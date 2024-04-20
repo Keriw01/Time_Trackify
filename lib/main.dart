@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:time_trackify/pages/auth/bloc/auth_bloc.dart';
 import 'package:time_trackify/pages/profile/bloc/profile_bloc.dart';
 import 'package:time_trackify/pages/qr_scanner/bloc/qr_bloc.dart';
+import 'package:time_trackify/pages/statistics/bloc/statistics_bloc.dart';
 import 'package:time_trackify/routes/app_router.dart';
 import 'package:time_trackify/styles/theme.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -33,6 +34,10 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => ProfileBloc(_appRouter, context),
+          lazy: true,
+        ),
+        BlocProvider(
+          create: (context) => StatisticsBloc(_appRouter, context),
           lazy: true,
         ),
       ],
