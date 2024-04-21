@@ -10,34 +10,52 @@ class QrStepPure extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<QrBloc, QrState>(
       builder: (context, state) {
-        return Padding(
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Column(
-                children: [
-                  Text(
-                    'Aktualny stan',
-                    style: Theme.of(context).textTheme.titleMedium,
+        return RefreshIndicator(
+          onRefresh: () => context.read<QrBloc>().getData(),
+          child: LayoutBuilder(
+            builder: (BuildContext context, BoxConstraints constraints) {
+              return SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                child: SizedBox(
+                  height: constraints.maxHeight,
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Column(
+                          children: [
+                            Text(
+                              'Aktualny stan',
+                              style: Theme.of(context).textTheme.titleMedium,
+                            ),
+                            const SizedBox(height: 10),
+                            convertUserStatusToCustomText(
+                              context,
+                              state.userData?.status,
+                            ),
+                          ],
+                        ),
+                        Expanded(
+                          child: Align(
+                            alignment: Alignment.center,
+                            child: convertUserStatusToCustomIcon(
+                              context,
+                              state.userData?.status,
+                            ),
+                          ),
+                        ),
+                        ElevatedButton(
+                          onPressed: () =>
+                              context.read<QrBloc>().setStepQrScan(),
+                          child: const Text('Skanuj QR'),
+                        ),
+                      ],
+                    ),
                   ),
-                  const SizedBox(height: 10),
-                  convertUserStatusToCustomText(
-                      context, state.userData?.status),
-                ],
-              ),
-              Expanded(
-                child: Align(
-                  alignment: Alignment.center,
-                  child: convertUserStatusToCustomIcon(
-                      context, state.userData?.status),
                 ),
-              ),
-              ElevatedButton(
-                onPressed: () => context.read<QrBloc>().setStepQrScan(),
-                child: const Text('Skanuj QR'),
-              ),
-            ],
+              );
+            },
           ),
         );
       },

@@ -24,7 +24,10 @@ class QrBloc extends BaseCubit<QrState> {
 
   Future<void> getData() async {
     try {
-      emit(state.copyWith(isLoading: true));
+      emit(state.copyWith(
+        isLoading: true,
+        errorMessage: null,
+      ));
 
       User? user = FirebaseAuth.instance.currentUser;
       List<QrCodes> qrCodes = await firestoreService.getQrCodes();
@@ -62,7 +65,10 @@ class QrBloc extends BaseCubit<QrState> {
 
   void confirmQr() async {
     try {
-      emit(state.copyWith(isLoading: true));
+      emit(state.copyWith(
+        isLoading: true,
+        errorMessage: null,
+      ));
 
       QrCodes? scannedQrCode = state.qrCodes?.firstWhere(
         (qrCodeElement) => qrCodeElement.qrCode == state.barcode,
@@ -142,6 +148,8 @@ class QrBloc extends BaseCubit<QrState> {
   }
 
   void setStepQrScan() async {
+    emit(state.copyWith(errorMessage: null));
+
     bool isCameraAllowed = await _handleCameraPermission();
 
     if (isCameraAllowed) {

@@ -17,7 +17,15 @@ class QrPage extends StatelessWidget {
       listener: (context, state) {
         if (state.errorMessage != null) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.errorMessage!)),
+            SnackBar(
+              content: Text(state.errorMessage!),
+              dismissDirection: DismissDirection.up,
+              behavior: SnackBarBehavior.floating,
+              margin: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).size.height - 135,
+                  left: 10,
+                  right: 10),
+            ),
           );
         }
       },
