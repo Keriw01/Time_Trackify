@@ -93,25 +93,15 @@ class AuthBloc extends BaseCubit<AuthState> {
     }
   }
 
-  Future<void> logOutWithContext(BuildContext context) async {
+  void logOutWithContext(BuildContext context) {
     emit(
       state.copyWith(
         errorMessage: '',
         isLoading: true,
       ),
     );
-    context.read<QrBloc>().clearQrBlocState();
-    context.read<ProfileBloc>().clearProfileBlocState();
-    _clearState();
-
-    await logOut();
-
-    _navigateToAuthenticationFlowScreen();
-  }
-
-  Future<void> logOut() async {
     try {
-      await _firebaseAuthService.signOutUser();
+      _firebaseAuthService.signOutUser();
     } on DefaultException {
       emit(state.copyWith(
         errorMessage: 'Błąd Firebase',
@@ -122,6 +112,12 @@ class AuthBloc extends BaseCubit<AuthState> {
         errorMessage: 'Błąd',
         isLoading: false,
       ));
+    } finally {
+      context.read<QrBloc>().clearQrBlocState();
+      context.read<ProfileBloc>().clearProfileBlocState();
+      _clearState();
+
+      _navigateToAuthenticationFlowScreen();
     }
   }
 
